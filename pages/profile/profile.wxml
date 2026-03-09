@@ -1,0 +1,82 @@
+<!--pages/profile/profile.wxml-->
+<view class="container">
+  <!-- 用户信息卡片 -->
+  <view class="profile-card card">
+    <view class="user-info">
+      <view class="avatar-wrapper" bindtap="setNickname">
+        <view class="avatar">
+          <text class="avatar-text">{{nickname.charAt(0).toUpperCase()}}</text>
+        </view>
+        <text class="edit-tip">点击修改昵称</text>
+      </view>
+      <view class="user-details">
+        <text class="nickname">{{nickname}}</text>
+        <text class="target-text" wx:if="{{targetUniversity}}">🎯 目标：{{targetUniversity}}</text>
+        <text class="target-text" wx:else>🎯 还未设置目标大学</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 统计数据 -->
+  <view class="stats-grid">
+    <view class="stat-card card">
+      <view class="stat-icon">📅</view>
+      <view class="stat-value">{{studyDays}}</view>
+      <view class="stat-label">学习天数</view>
+    </view>
+    <view class="stat-card card">
+      <view class="stat-icon">✅</view>
+      <view class="stat-value">{{completedTasks}}</view>
+      <view class="stat-label">完成任务</view>
+    </view>
+    <view class="stat-card card">
+      <view class="stat-icon">📊</view>
+      <view class="stat-value">{{totalTasks}}</view>
+      <view class="stat-label">总任务数</view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-card card">
+    <view class="menu-item" bindtap="shareApp">
+      <text class="menu-icon">📤</text>
+      <text class="menu-text">分享小程序</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-divider"></view>
+    <view class="menu-item" bindtap="sendFeedback">
+      <text class="menu-icon">💬</text>
+      <text class="menu-text">意见反馈</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-divider"></view>
+    <view class="menu-item" bindtap="showAbout">
+      <text class="menu-icon">ℹ️</text>
+      <text class="menu-text">关于我们</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 励志语录 -->
+  <view class="quote-card card">
+    <view class="quote-title">💪 每日激励</view>
+    <view class="quote-content">
+      <text class="quote-text">{{getDailyQuote()}}</text>
+    </view>
+  </view>
+
+  <!-- 设置 -->
+  <view class="settings-card card">
+    <view class="menu-item danger" bindtap="clearAllData">
+      <text class="menu-icon">🗑️</text>
+      <text class="menu-text">清除所有数据</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="version-info">
+    <text class="version-text">v{{version}}</text>
+    <text class="copyright">© 2026 高考倒计时</text>
+  </view>
+</view>

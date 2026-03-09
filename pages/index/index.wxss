@@ -1,0 +1,198 @@
+/* pages/index/index.wxss */
+.container {
+  padding: 0;
+  background: linear-gradient(180deg, #4A90D9 0%, #f5f5f5 300rpx);
+  min-height: 100vh;
+}
+
+/* 倒计时主卡片 */
+.countdown-card {
+  margin: 40rpx 20rpx 20rpx;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 24rpx;
+  padding: 40rpx 30rpx;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.title {
+  font-size: 32rpx;
+  color: #666666;
+  font-weight: 500;
+}
+
+.date {
+  font-size: 28rpx;
+  color: #4A90D9;
+  padding: 8rpx 16rpx;
+  background-color: rgba(74, 144, 217, 0.1);
+  border-radius: 20rpx;
+}
+
+/* 倒计时主数字 */
+.countdown-main {
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+.days-box {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  background: linear-gradient(135deg, #4A90D9 0%, #357ABD 100%);
+  border-radius: 24rpx;
+  padding: 40rpx 60rpx;
+  box-shadow: 0 8rpx 24rpx rgba(74, 144, 217, 0.3);
+}
+
+.days-number {
+  font-size: 120rpx;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  font-family: 'DIN Alternate', 'Arial', sans-serif;
+}
+
+.days-label {
+  font-size: 36rpx;
+  color: #ffffff;
+  margin-left: 10rpx;
+  opacity: 0.9;
+}
+
+/* 倒计时详细时间 */
+.countdown-detail {
+  display: flex;
+  justify-content: center;
+  gap: 40rpx;
+  margin-bottom: 30rpx;
+}
+
+.time-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time-number {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #333333;
+  font-family: 'DIN Alternate', 'Arial', sans-serif;
+}
+
+.time-label {
+  font-size: 24rpx;
+  color: #999999;
+  margin-top: 8rpx;
+}
+
+/* 进度条 */
+.progress-section {
+  margin-top: 20rpx;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 26rpx;
+  color: #999999;
+  margin-bottom: 12rpx;
+}
+
+.progress-bar {
+  height: 16rpx;
+  background-color: #e8e8e8;
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4A90D9 0%, #67C23A 100%);
+  border-radius: 8rpx;
+  transition: width 0.3s ease;
+}
+
+/* 励志语录卡片 */
+.quote-card {
+  margin: 20rpx;
+  background: linear-gradient(135deg, #FFF9E6 0%, #FFF3D6 100%);
+  border-radius: 20rpx;
+  padding: 30rpx;
+  display: flex;
+  align-items: flex-start;
+  gap: 20rpx;
+}
+
+.quote-icon {
+  font-size: 40rpx;
+  flex-shrink: 0;
+}
+
+.quote-text {
+  font-size: 30rpx;
+  color: #666666;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* 快捷功能 */
+.quick-actions {
+  display: flex;
+  justify-content: space-around;
+  margin: 30rpx 20rpx;
+  background-color: #ffffff;
+  border-radius: 20rpx;
+  padding: 30rpx 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.action-icon {
+  font-size: 48rpx;
+}
+
+.action-text {
+  font-size: 26rpx;
+  color: #666666;
+}
+
+/* 备考提醒卡片 */
+.tips-card {
+  margin: 20rpx;
+  background-color: #ffffff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+}
+
+.tips-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 20rpx;
+}
+
+.tips-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.tip-item {
+  font-size: 28rpx;
+  color: #666666;
+  line-height: 1.6;
+  padding-left: 20rpx;
+}

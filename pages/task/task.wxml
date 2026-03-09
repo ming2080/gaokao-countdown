@@ -1,0 +1,99 @@
+<!--pages/task/task.wxml-->
+<view class="container">
+  <!-- 今日统计卡片 -->
+  <view class="stats-card card">
+    <view class="stats-header">
+      <text class="stats-title">📅 今日任务</text>
+      <text class="stats-date">{{getTodayString()}}</text>
+    </view>
+    <view class="stats-content">
+      <view class="stat-item">
+        <text class="stat-number">{{todayCompleted}}</text>
+        <text class="stat-label">已完成</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-number">{{todayTotal}}</text>
+        <text class="stat-label">总任务</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-number highlight">{{getCompletionRate()}}%</text>
+        <text class="stat-label">完成率</text>
+      </view>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{getCompletionRate()}}%"></view>
+    </view>
+  </view>
+
+  <!-- 添加任务 -->
+  <view class="add-task-card card">
+    <view class="add-task-form">
+      <input
+        class="task-input"
+        placeholder="添加新任务..."
+        value="{{newTask}}"
+        bindinput="onTaskInput"
+        confirm-type="done"
+        bindconfirm="addTask"
+      />
+      <picker class="subject-picker" range="{{subjects}}" value="{{subjects.indexOf(selectedSubject)}}" bindchange="selectSubject">
+        <view class="subject-btn">{{selectedSubject}}</view>
+      </picker>
+      <button class="add-btn" bindtap="addTask">+</button>
+    </view>
+  </view>
+
+  <!-- 科目筛选 -->
+  <view class="filter-bar">
+    <scroll-view class="filter-scroll" scroll-x>
+      <view class="filter-list">
+        <view
+          class="filter-item {{selectedSubject === item ? 'active' : ''}}"
+          wx:for="{{subjects}}"
+          wx:key="*this"
+          data-subject="{{item}}"
+          bindtap="filterBySubject"
+        >
+          {{item}}
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 任务列表 -->
+  <view class="task-list">
+    <view
+      class="task-item {{item.completed ? 'completed' : ''}} {{item.overdue ? 'overdue' : ''}}"
+      wx:for="{{filterTasks}}"
+      wx:key="id"
+    >
+      <view class="task-checkbox" bindtap="toggleTask" data-id="{{item.id}}">
+        <view class="checkbox {{item.completed ? 'checked' : ''}}">
+          <text wx:if="{{item.completed}}">✓</text>
+        </view>
+      </view>
+      <view class="task-content">
+        <text class="task-text {{item.completed ? 'strikethrough' : ''}}">{{item.content}}</text>
+        <view class="task-meta">
+          <text class="task-subject">{{item.subject}}</text>
+          <text class="task-date">{{item.createdAt}}</text>
+        </view>
+      </view>
+      <view class="task-delete" bindtap="deleteTask" data-id="{{item.id}}">
+        <text>🗑️</text>
+      </view>
+    </view>
+
+    <view class="empty-state" wx:if="{{filterTasks.length === 0}}">
+      <text class="empty-icon">📝</text>
+      <text class="empty-text">暂无任务</text>
+    </view>
+  </view>
+
+  <!-- 清空已完成按钮 -->
+  <view class="clear-btn-wrapper" wx:if="{{todayCompleted > 0}}">
+    <button class="clear-btn" bindtap="clearCompleted">清空已完成</button>
+  </view>
+</view>

@@ -1,0 +1,2111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>高考倒计时 - 为梦想加油</title>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    :root {
+      --ai-primary: #6366f1;
+      --ai-secondary: #8b5cf6;
+      --ai-accent: #ec4899;
+      --ai-dark: #1e1b4b;
+      --ai-light: #eef2ff;
+      --gradient-ai: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+      --gradient-card: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 50%, rgba(236, 72, 153, 0.1) 100%);
+      --gradient-gold: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      --shadow-ai: 0 20px 60px rgba(99, 102, 241, 0.3);
+      --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.12);
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-border: rgba(255, 255, 255, 0.3);
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 20s ease infinite;
+      min-height: 100vh;
+      color: #1e293b;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .bg-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .glow-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.5;
+      animation: floatOrb 15s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .glow-orb-1 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, #6366f1 0%, transparent 70%);
+      top: -200px;
+      right: -200px;
+      animation-delay: 0s;
+    }
+    
+    .glow-orb-2 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
+      bottom: -150px;
+      left: -150px;
+      animation-delay: -5s;
+    }
+    
+    .glow-orb-3 {
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, #ec4899 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      animation-delay: -10s;
+    }
+    
+    @keyframes floatOrb {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(30px, -30px) scale(1.1); }
+      50% { transform: translate(-20px, 20px) scale(0.9); }
+      75% { transform: translate(20px, 30px) scale(1.05); }
+    }
+    
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(99, 102, 241, 0.6);
+      border-radius: 50%;
+      animation: particleFloat 20s linear infinite;
+    }
+    
+    @keyframes particleFloat {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+    }
+    
+    .container {
+      position: relative;
+      z-index: 1;
+      padding: 16px;
+      max-width: 500px;
+      margin: 0 auto;
+      padding-bottom: 100px;
+    }
+    
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 22px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--glass-border);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .top-bar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-ai);
+    }
+    
+    .date-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    
+    .date-main {
+      font-size: 19px;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .date-main::before {
+      content: '📅';
+      font-size: 20px;
+    }
+    
+    .date-sub {
+      font-size: 13px;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+    }
+    
+    .weather-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: #64748b;
+      font-weight: 600;
+      padding: 10px 16px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+      border-radius: 16px;
+    }
+    
+    .weather-icon {
+      font-size: 26px;
+    }
+    
+    .countdown-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 28px;
+      padding: 32px 26px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-ai);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--glass-border);
+    }
+    
+    .countdown-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+      animation: rotateBg 30s linear infinite;
+    }
+    
+    @keyframes rotateBg {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .card-title {
+      font-size: 20px;
+      color: #475569;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .card-title-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--gradient-ai);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+      animation: iconPulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes iconPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .date-badge {
+      font-size: 13px;
+      font-weight: 600;
+      color: #6366f1;
+      padding: 8px 16px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+    }
+    
+    .date-badge:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+    }
+    
+    .countdown-main {
+      text-align: center;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .days-container {
+      display: inline-block;
+      position: relative;
+    }
+    
+    .days-container::before {
+      content: '';
+      position: absolute;
+      inset: -20px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+    
+    .days-box {
+      display: inline-flex;
+      align-items: baseline;
+      justify-content: center;
+      background: var(--gradient-ai);
+      border-radius: 28px;
+      padding: 48px 72px;
+      box-shadow: 0 20px 60px rgba(99, 102, 241, 0.5), inset 0 2px 10px rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .days-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+      animation: shine 4s ease-in-out infinite;
+    }
+    
+    @keyframes shine {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) rotate(45deg); }
+    }
+    
+    .days-number {
+      font-size: 96px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1;
+      letter-spacing: -4px;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .days-label {
+      font-size: 30px;
+      color: rgba(255, 255, 255, 0.95);
+      margin-left: 16px;
+      font-weight: 600;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .countdown-detail {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .time-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
+      border-radius: 18px;
+      padding: 16px 20px;
+      min-width: 80px;
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+      transition: all 0.3s ease;
+    }
+    
+    .time-unit:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(99, 102, 241, 0.25);
+    }
+    
+    .time-number {
+      font-size: 36px;
+      font-weight: 700;
+      background: var(--gradient-ai);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-family: 'Inter', sans-serif;
+      line-height: 1;
+    }
+    
+    .time-label {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .progress-section {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(99, 102, 241, 0.15);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .progress-label {
+      font-size: 14px;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+    
+    .progress-percent {
+      font-size: 20px;
+      font-weight: 800;
+      background: var(--gradient-ai);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .progress-bar {
+      height: 12px;
+      background: linear-gradient(90deg, #e2e8f0, #cbd5e1);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: var(--gradient-ai);
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+      border-radius: 6px;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    
+    .quote-card {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fcd34d 100%);
+      border-radius: 24px;
+      padding: 26px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      box-shadow: 0 12px 40px rgba(251, 191, 36, 0.3);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(251, 191, 36, 0.2);
+    }
+    
+    .quote-card::before {
+      content: '"';
+      position: absolute;
+      top: -20px;
+      left: 15px;
+      font-size: 100px;
+      color: rgba(251, 191, 36, 0.15);
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+    
+    .quote-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--gradient-gold);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4);
+    }
+    
+    .quote-text {
+      font-size: 15px;
+      color: #78350f;
+      line-height: 1.7;
+      font-style: italic;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    
+    .action-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 26px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--glass-border);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .action-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gradient-card);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    
+    .action-card:hover::before {
+      opacity: 1;
+    }
+    
+    .action-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 48px rgba(99, 102, 241, 0.25);
+    }
+    
+    .action-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--gradient-ai);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+      position: relative;
+      z-index: 1;
+      transition: all 0.4s ease;
+    }
+    
+    .action-card:hover .action-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+    
+    .action-text {
+      font-size: 14px;
+      color: #475569;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .tab-bar {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 32px;
+      display: flex;
+      padding: 10px 16px;
+      padding-bottom: calc(10px + env(safe-area-inset-bottom));
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding: 12px 18px;
+      border-radius: 22px;
+      cursor: pointer;
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+    
+    .tab-item::before {
+      content: '';
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 3px;
+      background: var(--gradient-ai);
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+    
+    .tab-item.active::before {
+      width: 24px;
+    }
+    
+    .tab-item.active {
+      color: #6366f1;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
+    }
+    
+    .tab-icon {
+      font-size: 24px;
+      transition: all 0.3s ease;
+    }
+    
+    .tab-item.active .tab-icon {
+      animation: tabBounce 0.5s ease;
+    }
+    
+    @keyframes tabBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    
+    .page {
+      display: none;
+      animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .page.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 26px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--glass-border);
+    }
+    
+    .card-header {
+      margin-bottom: 20px;
+    }
+    
+    .card-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .input-group {
+      margin-bottom: 20px;
+    }
+    
+    .input-group label {
+      display: block;
+      font-size: 14px;
+      color: #475569;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    
+    .input-group input,
+    .input-group select {
+      width: 100%;
+      padding: 16px 20px;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      background: #fff;
+      font-weight: 500;
+    }
+    
+    .input-group input:focus,
+    .input-group select:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+    
+    .btn-primary {
+      background: var(--gradient-ai);
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 16px 36px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+    
+    .btn-primary:hover::before {
+      transform: translateX(100%);
+    }
+    
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+    
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #475569;
+      border: none;
+      border-radius: 24px;
+      padding: 14px 28px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+    
+    .task-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+      border: 1px solid #f1f5f9;
+    }
+    
+    .task-item:hover {
+      transform: translateX(4px);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+    }
+    
+    .task-checkbox {
+      width: 30px;
+      height: 30px;
+      border: 2px solid #e2e8f0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      font-size: 16px;
+      color: #fff;
+      transition: all 0.3s ease;
+    }
+    
+    .task-checkbox.checked {
+      background: var(--gradient-ai);
+      border-color: #6366f1;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+    
+    .task-content {
+      flex: 1;
+    }
+    
+    .task-text {
+      font-size: 15px;
+      color: #1e293b;
+      font-weight: 500;
+    }
+    
+    .task-text.completed {
+      text-decoration: line-through;
+      color: #94a3b8;
+    }
+    
+    .task-meta {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .task-subject {
+      font-size: 12px;
+      color: #6366f1;
+      padding: 4px 12px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    
+    .stat-card {
+      background: var(--glass-bg);
+      border-radius: 20px;
+      padding: 22px 16px;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--glass-border);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+      animation: rotateBg 20s linear infinite;
+    }
+    
+    .stat-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .stat-value {
+      font-size: 34px;
+      font-weight: 800;
+      background: var(--gradient-ai);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .stat-label {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 8px;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .achievements-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    
+    .achievement-item {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      opacity: 0.5;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    
+    .achievement-item.unlocked {
+      opacity: 1;
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border-color: #fbbf24;
+      box-shadow: 0 8px 24px rgba(251, 191, 36, 0.3);
+    }
+    
+    .achievement-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+    
+    .achievement-item.unlocked .achievement-icon {
+      background: var(--gradient-gold);
+      box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4);
+    }
+    
+    .achievement-info {
+      flex: 1;
+    }
+    
+    .achievement-name {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 4px;
+    }
+    
+    .achievement-desc {
+      font-size: 13px;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+    
+    .achievement-item.unlocked .achievement-desc {
+      color: #78350f;
+    }
+    
+    .study-timer {
+      text-align: center;
+      padding: 36px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+      border-radius: 24px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(99, 102, 241, 0.2);
+    }
+    
+    .timer-display {
+      font-size: 64px;
+      font-weight: 800;
+      background: var(--gradient-ai);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-family: 'Inter', sans-serif;
+      font-variant-numeric: tabular-nums;
+      margin: 24px 0;
+      letter-spacing: -2px;
+    }
+    
+    .timer-controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .timer-btn {
+      padding: 14px 32px;
+      border-radius: 22px;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .timer-btn.start {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(34, 197, 94, 0.4);
+    }
+    
+    .timer-btn.pause {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(249, 115, 22, 0.4);
+    }
+    
+    .timer-btn.stop {
+      background: #f1f5f9;
+      color: #475569;
+    }
+    
+    .timer-btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .timer-btn:active {
+      transform: scale(0.98);
+    }
+    
+    .share-preview {
+      background: linear-gradient(135deg, #ffffff, #f8fafc);
+      border-radius: 24px;
+      padding: 40px 30px;
+      margin-bottom: 20px;
+      text-align: center;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e2e8f0;
+    }
+    
+    .share-days {
+      font-size: 80px;
+      font-weight: 800;
+      background: var(--gradient-ai);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -4px;
+    }
+    
+    .share-label {
+      font-size: 18px;
+      color: #64748b;
+      margin: 12px 0;
+      font-weight: 600;
+    }
+    
+    .share-quote {
+      font-size: 16px;
+      color: #94a3b8;
+      font-style: italic;
+      margin-top: 24px;
+      padding: 0 20px;
+      line-height: 1.6;
+    }
+    
+    .music-control {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      cursor: pointer;
+      box-shadow: var(--shadow-card);
+      z-index: 200;
+      border: 1px solid var(--glass-border);
+      transition: all 0.3s ease;
+    }
+    
+    .music-control:hover {
+      transform: scale(1.1);
+    }
+    
+    .music-control.paused {
+      opacity: 0.6;
+    }
+    
+    .toast {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(15, 23, 42, 0.95);
+      color: #fff;
+      padding: 18px 28px;
+      border-radius: 16px;
+      font-size: 15px;
+      font-weight: 600;
+      z-index: 1000;
+      display: none;
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #94a3b8;
+    }
+    
+    .empty-icon {
+      font-size: 72px;
+      margin-bottom: 18px;
+      opacity: 0.4;
+    }
+    
+    .empty-text {
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    
+    /* 二维码模态框 */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .modal-overlay.active {
+      display: flex;
+    }
+    
+    .modal-content {
+      background: #fff;
+      border-radius: 28px;
+      padding: 36px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+      position: relative;
+      animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes modalSlideIn {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      border: none;
+      font-size: 20px;
+      color: #64748b;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .modal-close:hover {
+      background: #e2e8f0;
+      transform: rotate(90deg);
+    }
+    
+    .modal-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .modal-subtitle {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+    
+    .qr-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 20px;
+      display: inline-block;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+      border: 2px solid #e2e8f0;
+      margin-bottom: 20px;
+    }
+    
+    #qrcode {
+      display: flex;
+      justify-content: center;
+    }
+    
+    .qr-tips {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 20px;
+    }
+    
+    .qr-tips i {
+      color: #22c55e;
+    }
+    
+    .qr-actions {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .qr-actions .btn-primary {
+      flex: 1;
+    }
+    
+    .feature-list {
+      text-align: left;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e8f0;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      font-size: 14px;
+      color: #475569;
+    }
+    
+    .feature-item i {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <audio id="bgMusic" loop>
+    <source src="https://music.163.com/song/media/outer/url?id=1860163354.mp3" type="audio/mpeg">
+  </audio>
+  
+  <div class="music-control" id="musicControl" onclick="toggleMusic()">
+    <i class="fas fa-music"></i>
+  </div>
+  
+  <div class="bg-grid"></div>
+  <div class="glow-orb glow-orb-1"></div>
+  <div class="glow-orb glow-orb-2"></div>
+  <div class="glow-orb glow-orb-3"></div>
+  <div class="particles" id="particles"></div>
+  
+  <div class="toast" id="toast"></div>
+  
+  <!-- 二维码模态框 -->
+  <div class="modal-overlay" id="qrModal" onclick="closeQrModal(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeQrModal()">
+        <i class="fas fa-times"></i>
+      </button>
+      
+      <div class="modal-title">
+        <i class="fas fa-qrcode" style="color: #6366f1;"></i>
+        手机扫码使用
+      </div>
+      <div class="modal-subtitle">打开微信或浏览器扫一扫</div>
+      
+      <div class="qr-container">
+        <div id="qrcode"></div>
+      </div>
+      
+      <div class="qr-tips">
+        <i class="fas fa-check-circle"></i>
+        <span>数据自动同步，随时随地使用</span>
+      </div>
+      
+      <div class="qr-actions">
+        <button class="btn-primary" onclick="downloadQR()">
+          <i class="fas fa-download"></i> 保存二维码
+        </button>
+      </div>
+      
+      <div class="feature-list">
+        <div class="feature-item">
+          <i class="fas fa-check"></i>
+          <span>倒计时同步显示</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-check"></i>
+          <span>学习任务管理</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-check"></i>
+          <span>学习时长统计</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-check"></i>
+          <span>成就系统解锁</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 首页 -->
+  <div id="page-index" class="page active">
+    <div class="container">
+      <div class="top-bar">
+        <div class="date-info">
+          <div class="date-main" id="currentDate">3 月 9 日</div>
+          <div class="date-sub">
+            <span id="currentWeekday">星期一</span>
+            <span>•</span>
+            <span id="currentYear">2026 年</span>
+          </div>
+        </div>
+        <div class="weather-info">
+          <span class="weather-icon" id="weatherIcon">⛅</span>
+          <span id="weatherText">多云</span>
+        </div>
+      </div>
+      
+      <div class="countdown-card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="card-title-icon">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <span>距离高考</span>
+          </div>
+          <div class="date-badge" onclick="changeDate()" id="gaokaoDateDisplay">
+            <i class="far fa-calendar-alt"></i> 2026 年 6 月 7 日
+          </div>
+        </div>
+        
+        <div class="countdown-main">
+          <div class="days-container">
+            <div class="days-box">
+              <span class="days-number" id="daysLeft">0</span>
+              <span class="days-label">天</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="countdown-detail">
+          <div class="time-unit">
+            <span class="time-number" id="hoursLeft">00</span>
+            <span class="time-label">小时</span>
+          </div>
+          <div class="time-unit">
+            <span class="time-number" id="minutesLeft">00</span>
+            <span class="time-label">分钟</span>
+          </div>
+          <div class="time-unit">
+            <span class="time-number" id="secondsLeft">00</span>
+            <span class="time-label">秒钟</span>
+          </div>
+        </div>
+        
+        <div class="progress-section">
+          <div class="progress-header">
+            <div class="progress-label">
+              <i class="fas fa-chart-line"></i> 备考进度
+            </div>
+            <div class="progress-percent" id="progressPercent">0%</div>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="quote-card">
+        <div class="quote-icon">
+          <i class="fas fa-lightbulb"></i>
+        </div>
+        <span class="quote-text" id="dailyQuote">加载中...</span>
+      </div>
+      
+      <div class="quick-actions">
+        <div class="action-card" onclick="switchTab('study')">
+          <div class="action-icon">
+            <i class="fas fa-stopwatch"></i>
+          </div>
+          <span class="action-text">学习计时</span>
+        </div>
+        <div class="action-card" onclick="switchTab('task')">
+          <div class="action-icon">
+            <i class="fas fa-tasks"></i>
+          </div>
+          <span class="action-text">今日任务</span>
+        </div>
+        <div class="action-card" onclick="switchTab('share')">
+          <div class="action-icon">
+            <i class="fas fa-share-alt"></i>
+          </div>
+          <span class="action-text">分享打卡</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 学习计时页 -->
+  <div id="page-study" class="page">
+    <div class="container">
+      <div class="card-header">
+        <h1 class="card-title">
+          <i class="fas fa-stopwatch"></i> 学习计时
+        </h1>
+      </div>
+      
+      <div class="study-timer">
+        <div style="font-size: 15px; color: #64748b; font-weight: 600;">
+          <i class="fas fa-clock"></i> 当前学习时长
+        </div>
+        <div class="timer-display" id="timerDisplay">00:00:00</div>
+        <div class="timer-controls">
+          <button class="timer-btn start" onclick="startTimer()">
+            <i class="fas fa-play"></i> 开始
+          </button>
+          <button class="timer-btn pause" onclick="pauseTimer()">
+            <i class="fas fa-pause"></i> 暂停
+          </button>
+          <button class="timer-btn stop" onclick="stopTimer()">
+            <i class="fas fa-stop"></i> 重置
+          </button>
+        </div>
+      </div>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📅</div>
+          <div class="stat-value" id="todayStudyTime">0h</div>
+          <div class="stat-label">今日学习</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📊</div>
+          <div class="stat-value" id="totalStudyTime">0h</div>
+          <div class="stat-label">累计学习</div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h2 class="card-title">
+          <i class="fas fa-history"></i> 学习记录
+        </h2>
+        <div id="studyRecords" style="margin-top: 16px;"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 任务页 -->
+  <div id="page-task" class="page">
+    <div class="container">
+      <div class="card-header">
+        <h1 class="card-title">
+          <i class="fas fa-tasks"></i> 今日任务
+        </h1>
+        <span style="color: #94a3b8; font-size: 14px; font-weight: 600;" id="todayStats">0/0</span>
+      </div>
+      
+      <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+        <input type="text" id="newTask" placeholder="添加新任务..." style="flex: 1; padding: 16px; border: 2px solid #e2e8f0; border-radius: 16px;">
+        <select id="taskSubject" style="padding: 16px; border: 2px solid #e2e8f0; border-radius: 16px;">
+          <option value="其他">其他</option>
+          <option value="语文">语文</option>
+          <option value="数学">数学</option>
+          <option value="英语">英语</option>
+          <option value="物理">物理</option>
+          <option value="化学">化学</option>
+          <option value="生物">生物</option>
+          <option value="历史">历史</option>
+          <option value="地理">地理</option>
+          <option value="政治">政治</option>
+        </select>
+        <button class="btn-primary" onclick="addTask()" style="width: auto; padding: 16px 24px;">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+      
+      <div id="taskList"></div>
+      
+      <div id="emptyTask" class="empty-state">
+        <div class="empty-icon">
+          <i class="fas fa-clipboard-list"></i>
+        </div>
+        <div class="empty-text">今天还没有任务哦<br>加油！</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 成就页 -->
+  <div id="page-achievement" class="page">
+    <div class="container">
+      <div class="card-header">
+        <h1 class="card-title">
+          <i class="fas fa-trophy"></i> 成就系统
+        </h1>
+        <span style="color: #94a3b8; font-size: 14px; font-weight: 600;" id="achievementProgress">0/0</span>
+      </div>
+      
+      <div class="achievements-list" id="achievementsList"></div>
+    </div>
+  </div>
+  
+  <!-- 分享页 -->
+  <div id="page-share" class="page">
+    <div class="container">
+      <div class="card-header">
+        <h1 class="card-title">
+          <i class="fas fa-share-alt"></i> 分享打卡
+        </h1>
+      </div>
+      
+      <div class="share-preview" id="sharePreview">
+        <div style="font-size: 15px; color: #94a3b8; margin-bottom: 12px; font-weight: 600;">距离高考还有</div>
+        <div class="share-days" id="shareDays">0</div>
+        <div class="share-label">天</div>
+        <div class="share-quote" id="shareQuote">乾坤未定，你我皆是黑马！</div>
+        <div style="margin-top: 32px; font-size: 13px; color: #cbd5e1; font-weight: 600;">
+          <i class="fas fa-graduation-cap"></i> 高考倒计时 · 为梦想加油
+        </div>
+      </div>
+      
+      <button class="btn-primary" onclick="generateShareImage()">
+        <i class="fas fa-camera"></i> 生成分享图
+      </button>
+      <button class="btn-secondary" onclick="shareToFriends()" style="width: 100%;">
+        <i class="fas fa-share"></i> 分享给好友
+      </button>
+    </div>
+  </div>
+  
+  <!-- 我的页 -->
+  <div id="page-profile" class="page">
+    <div class="container">
+      <div class="card-header">
+        <h1 class="card-title">
+          <i class="fas fa-user-circle"></i> 个人中心
+        </h1>
+      </div>
+      
+      <div class="card" style="background: linear-gradient(135deg, #ffffff, #f8fafc);">
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <div style="width: 72px; height: 72px; border-radius: 50%; background: var(--gradient-ai); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 32px; font-weight: 700; box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);" id="avatarText">G</div>
+          <div>
+            <h2 style="font-size: 24px; color: #1e293b; font-weight: 700;" id="profileNickname">高考学子</h2>
+            <p style="color: #64748b; font-size: 14px; margin-top: 6px; font-weight: 500;" id="profileTarget">🎯 还未设置目标</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="stats-grid" style="margin-top: 20px;">
+        <div class="stat-card">
+          <div class="stat-icon">📅</div>
+          <div class="stat-value" id="studyDays">0</div>
+          <div class="stat-label">学习天数</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-value" id="completedTasks">0</div>
+          <div class="stat-label">完成任务</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏆</div>
+          <div class="stat-value" id="unlockedAchievements">0</div>
+          <div class="stat-label">解锁成就</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📊</div>
+          <div class="stat-value" id="totalTasks">0</div>
+          <div class="stat-label">总任务数</div>
+        </div>
+      </div>
+      
+      <!-- 二维码入口 -->
+      <div class="card" style="margin-top: 20px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 22px; box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);">
+              <i class="fas fa-qrcode"></i>
+            </div>
+            <div>
+              <h3 style="font-size: 17px; color: #1e293b; font-weight: 700;">手机扫码使用</h3>
+              <p style="font-size: 13px; color: #64748b; margin-top: 4px;">微信扫码，随时随地使用</p>
+            </div>
+          </div>
+          <i class="fas fa-chevron-right" style="color: #cbd5e1; font-size: 18px;"></i>
+        </div>
+        <button class="btn-primary" onclick="showQrModal()" style="background: linear-gradient(135deg, #22c55e, #16a34a); box-shadow: 0 8px 24px rgba(34, 197, 94, 0.4);">
+          <i class="fas fa-mobile-alt"></i> 显示二维码
+        </button>
+      </div>
+      
+      <div class="card" style="margin-top: 20px;">
+        <div class="input-group">
+          <label>
+            <i class="fas fa-pen"></i> 设置昵称
+          </label>
+          <input type="text" id="nicknameInput" placeholder="输入你的昵称">
+        </div>
+        <button class="btn-primary" onclick="setNickname()">
+          <i class="fas fa-save"></i> 保存昵称
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="tab-bar">
+    <div class="tab-item active" onclick="switchTab('index')" id="tab-index">
+      <i class="fas fa-home tab-icon"></i>
+      <span>首页</span>
+    </div>
+    <div class="tab-item" onclick="switchTab('study')" id="tab-study">
+      <i class="fas fa-stopwatch tab-icon"></i>
+      <span>学习</span>
+    </div>
+    <div class="tab-item" onclick="switchTab('task')" id="tab-task">
+      <i class="fas fa-tasks tab-icon"></i>
+      <span>任务</span>
+    </div>
+    <div class="tab-item" onclick="switchTab('achievement')" id="tab-achievement">
+      <i class="fas fa-trophy tab-icon"></i>
+      <span>成就</span>
+    </div>
+    <div class="tab-item" onclick="switchTab('profile')" id="tab-profile">
+      <i class="fas fa-user tab-icon"></i>
+      <span>我的</span>
+    </div>
+  </div>
+  
+  <script>
+    const quotes = [
+      { text: "乾坤未定，你我皆是黑马！", icon: "🐎" },
+      { text: "星光不问赶路人，时光不负有心人。", icon: "⭐" },
+      { text: "将来的你，一定会感谢现在拼命的自己。", icon: "💪" },
+      { text: "没有横空出世的运气，只有不为人知的努力。", icon: "🍀" },
+      { text: "越努力，越幸运！", icon: "🌟" },
+      { text: "坚持到底，永不放弃！", icon: "🔥" },
+      { text: "今天流下的汗水，是明天成功的泪水。", icon: "💦" },
+      { text: "梦想不会发光，发光的是追梦的你。", icon: "✨" }
+    ];
+    
+    const achievements = [
+      { id: 'first_study', name: '初次尝试', desc: '首次开始学习计时', icon: '🌱', condition: (stats) => stats.totalStudySeconds >= 60 },
+      { id: 'study_1h', name: '专注一小时', desc: '累计学习达到 1 小时', icon: '⏱️', condition: (stats) => stats.totalStudySeconds >= 3600 },
+      { id: 'study_10h', name: '勤学苦练', desc: '累计学习达到 10 小时', icon: '📚', condition: (stats) => stats.totalStudySeconds >= 36000 },
+      { id: 'first_task', name: '任务达人', desc: '完成第一个任务', icon: '✅', condition: (stats) => stats.completedTasks >= 1 },
+      { id: 'task_10', name: '高效执行', desc: '完成 10 个任务', icon: '🎯', condition: (stats) => stats.completedTasks >= 10 },
+      { id: 'study_7days', name: '持之以恒', desc: '连续学习 7 天', icon: '🔥', condition: (stats) => stats.studyDays >= 7 },
+      { id: 'share_first', name: '分享传播', desc: '首次分享倒计时', icon: '📤', condition: (stats) => stats.shareCount >= 1 },
+      { id: 'gaokao_100', name: '百日誓师', desc: '距离高考 100 天时使用', icon: '💯', condition: (stats) => stats.daysLeft <= 100 && stats.daysLeft > 99 }
+    ];
+    
+    let timerInterval = null;
+    let timerSeconds = 0;
+    let isTimerRunning = false;
+    let qrCode = null;
+    
+    let gaokaoDate = localStorage.getItem('gaokaoDate');
+    if (!gaokaoDate) {
+      const now = new Date();
+      const year = now.getMonth() > 5 || (now.getMonth() === 5 && now.getDate() > 7) ? now.getFullYear() + 1 : now.getFullYear();
+      gaokaoDate = `${year}-06-07`;
+      localStorage.setItem('gaokaoDate', gaokaoDate);
+    }
+    
+    function createParticles() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDuration = (Math.random() * 15 + 15) + 's';
+        particle.style.animationDelay = (Math.random() * 20) + 's';
+        container.appendChild(particle);
+      }
+    }
+    
+    function updateDateTime() {
+      const now = new Date();
+      const months = ['1 月', '2 月', '3 月', '4 月', '5 月', '6 月', '7 月', '8 月', '9 月', '10 月', '11 月', '12 月'];
+      const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+      document.getElementById('currentDate').textContent = `${months[now.getMonth()]}${now.getDate()}日`;
+      document.getElementById('currentWeekday').textContent = weekdays[now.getDay()];
+      document.getElementById('currentYear').textContent = `${now.getFullYear()}年`;
+    }
+    
+    function updateCountdown() {
+      const now = new Date();
+      const target = new Date(gaokaoDate);
+      const diff = target - now;
+      
+      if (diff <= 0) {
+        document.getElementById('daysLeft').textContent = '0';
+        document.getElementById('hoursLeft').textContent = '00';
+        document.getElementById('minutesLeft').textContent = '00';
+        document.getElementById('secondsLeft').textContent = '00';
+        document.getElementById('progressFill').style.width = '100%';
+        document.getElementById('progressPercent').textContent = '100%';
+        return;
+      }
+      
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      
+      document.getElementById('daysLeft').textContent = days;
+      document.getElementById('hoursLeft').textContent = String(hours).padStart(2, '0');
+      document.getElementById('minutesLeft').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('secondsLeft').textContent = String(seconds).padStart(2, '0');
+      
+      const schoolYearStart = new Date(now.getFullYear(), 8, 1);
+      if (now.getMonth() < 8) schoolYearStart.setFullYear(now.getFullYear() - 1);
+      const totalDays = Math.floor((target - schoolYearStart) / (1000 * 60 * 60 * 24));
+      const passedDays = Math.floor((now - schoolYearStart) / (1000 * 60 * 60 * 24));
+      const progress = Math.min(100, Math.max(0, Math.floor((passedDays / totalDays) * 100)));
+      
+      document.getElementById('progressFill').style.width = progress + '%';
+      document.getElementById('progressPercent').textContent = progress + '%';
+      document.getElementById('shareDays').textContent = days;
+      
+      checkAchievements({ daysLeft: days });
+    }
+    
+    function updateQuote() {
+      const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+      const quote = quotes[dayOfYear % quotes.length];
+      document.getElementById('dailyQuote').textContent = quote.text;
+      document.getElementById('shareQuote').textContent = quote.text;
+    }
+    
+    function switchTab(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+      document.getElementById('page-' + page).classList.add('active');
+      document.getElementById('tab-' + page).classList.add('active');
+      if (page === 'task') loadTasks();
+      if (page === 'profile') loadProfile();
+      if (page === 'achievement') loadAchievements();
+      if (page === 'study') loadStudyRecords();
+    }
+    
+    function changeDate() {
+      const newDate = prompt('请输入高考日期 (格式：YYYY-MM-DD)', gaokaoDate);
+      if (newDate && /^\d{4}-\d{2}-\d{2}$/.test(newDate)) {
+        gaokaoDate = newDate;
+        localStorage.setItem('gaokaoDate', gaokaoDate);
+        updateCountdown();
+        showToast('修改成功！加油！💪');
+      }
+    }
+    
+    function toggleMusic() {
+      const music = document.getElementById('bgMusic');
+      const control = document.getElementById('musicControl');
+      if (music.paused) {
+        music.play().catch(() => showToast('无法播放音乐'));
+        control.classList.remove('paused');
+        control.innerHTML = '<i class="fas fa-compact-disc" style="animation: spin 2s linear infinite;"></i>';
+      } else {
+        music.pause();
+        control.classList.add('paused');
+        control.innerHTML = '<i class="fas fa-music"></i>';
+      }
+    }
+    
+    function startTimer() {
+      if (isTimerRunning) return;
+      isTimerRunning = true;
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        updateTimerDisplay();
+      }, 1000);
+      showToast('开始学习！加油！💪');
+    }
+    
+    function pauseTimer() {
+      if (!isTimerRunning) return;
+      clearInterval(timerInterval);
+      isTimerRunning = false;
+      saveStudyRecord();
+      showToast('已暂停');
+    }
+    
+    function stopTimer() {
+      clearInterval(timerInterval);
+      isTimerRunning = false;
+      timerSeconds = 0;
+      updateTimerDisplay();
+      saveStudyRecord();
+      showToast('已重置');
+    }
+    
+    function updateTimerDisplay() {
+      const hours = Math.floor(timerSeconds / 3600);
+      const minutes = Math.floor((timerSeconds % 3600) / 60);
+      const seconds = timerSeconds % 60;
+      document.getElementById('timerDisplay').textContent = 
+        String(hours).padStart(2, '0') + ':' + 
+        String(minutes).padStart(2, '0') + ':' + 
+        String(seconds).padStart(2, '0');
+    }
+    
+    function saveStudyRecord() {
+      if (timerSeconds < 60) return;
+      const records = JSON.parse(localStorage.getItem('studyRecords') || '[]');
+      const today = new Date().toISOString().split('T')[0];
+      let todayRecord = records.find(r => r.date === today);
+      if (todayRecord) {
+        todayRecord.seconds += timerSeconds;
+      } else {
+        records.push({ date: today, seconds: timerSeconds });
+      }
+      localStorage.setItem('studyRecords', JSON.stringify(records));
+      updateStudyStats();
+      checkAchievements();
+      timerSeconds = 0;
+    }
+    
+    function loadStudyRecords() {
+      updateStudyStats();
+      const records = JSON.parse(localStorage.getItem('studyRecords') || '[]');
+      const container = document.getElementById('studyRecords');
+      if (records.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="empty-icon"><i class="fas fa-book"></i></div><div class="empty-text">暂无学习记录</div></div>';
+        return;
+      }
+      container.innerHTML = records.slice(-7).reverse().map(r => {
+        const hours = Math.floor(r.seconds / 3600);
+        const minutes = Math.floor((r.seconds % 3600) / 60);
+        return `<div style="padding: 14px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; font-weight: 500;"><span>${r.date}</span><span style="color: #6366f1;">${hours}h ${minutes}m</span></div>`;
+      }).join('');
+    }
+    
+    function updateStudyStats() {
+      const records = JSON.parse(localStorage.getItem('studyRecords') || '[]');
+      const today = new Date().toISOString().split('T')[0];
+      const todayRecord = records.find(r => r.date === today);
+      const todaySeconds = todayRecord ? todayRecord.seconds : 0;
+      const totalSeconds = records.reduce((sum, r) => sum + r.seconds, 0);
+      document.getElementById('todayStudyTime').textContent = formatTime(todaySeconds);
+      document.getElementById('totalStudyTime').textContent = formatTime(totalSeconds);
+    }
+    
+    function formatTime(seconds) {
+      const hours = Math.floor(seconds / 3600);
+      if (hours >= 1) return hours + 'h';
+      return Math.floor(seconds / 60) + 'm';
+    }
+    
+    function addTask() {
+      const content = document.getElementById('newTask').value.trim();
+      const subject = document.getElementById('taskSubject').value;
+      if (!content) { showToast('请输入任务内容！'); return; }
+      const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+      tasks.unshift({ id: Date.now(), content: content, subject: subject, completed: false, date: new Date().toISOString().split('T')[0] });
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      document.getElementById('newTask').value = '';
+      loadTasks();
+      showToast('任务已添加！✅');
+    }
+    
+    function loadTasks() {
+      const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+      const today = new Date().toISOString().split('T')[0];
+      const todayTasks = tasks.filter(t => t.date === today);
+      const completed = todayTasks.filter(t => t.completed).length;
+      document.getElementById('todayStats').textContent = `${completed}/${todayTasks.length}`;
+      const list = document.getElementById('taskList');
+      const empty = document.getElementById('emptyTask');
+      if (todayTasks.length === 0) { list.innerHTML = ''; empty.style.display = 'block'; return; }
+      empty.style.display = 'none';
+      list.innerHTML = todayTasks.map(task => `
+        <div class="task-item">
+          <div class="task-checkbox ${task.completed ? 'checked' : ''}" onclick="toggleTask(${task.id})">
+            ${task.completed ? '<i class="fas fa-check"></i>' : ''}
+          </div>
+          <div class="task-content">
+            <div class="task-text ${task.completed ? 'completed' : ''}">${task.content}</div>
+            <div class="task-meta">
+              <span class="task-subject">${task.subject}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function toggleTask(id) {
+      const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+      const task = tasks.find(t => t.id === id);
+      if (task) {
+        task.completed = !task.completed;
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        loadTasks();
+        checkAchievements();
+      }
+    }
+    
+    function checkAchievements(extraStats = {}) {
+      const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+      const records = JSON.parse(localStorage.getItem('studyRecords') || '[]');
+      const unlocked = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+      const stats = {
+        totalStudySeconds: records.reduce((sum, r) => sum + r.seconds, 0),
+        studyDays: records.length,
+        completedTasks: tasks.filter(t => t.completed).length,
+        shareCount: parseInt(localStorage.getItem('shareCount') || '0'),
+        daysLeft: extraStats.daysLeft || 0,
+        ...extraStats
+      };
+      achievements.forEach(ach => {
+        if (!unlocked.includes(ach.id) && ach.condition(stats)) {
+          unlocked.push(ach.id);
+          localStorage.setItem('unlockedAchievements', JSON.stringify(unlocked));
+          showToast(`🏆 解锁新成就：${ach.name}！`);
+        }
+      });
+    }
+    
+    function loadAchievements() {
+      const unlocked = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+      const container = document.getElementById('achievementsList');
+      document.getElementById('achievementProgress').textContent = `${unlocked.length}/${achievements.length}`;
+      container.innerHTML = achievements.map(ach => {
+        const isUnlocked = unlocked.includes(ach.id);
+        return `
+          <div class="achievement-item ${isUnlocked ? 'unlocked' : ''}">
+            <div class="achievement-icon">${ach.icon}</div>
+            <div class="achievement-info">
+              <div class="achievement-name">${ach.name}</div>
+              <div class="achievement-desc">${ach.desc}</div>
+            </div>
+            ${isUnlocked ? '<i class="fas fa-check-circle" style="font-size: 28px; color: #22c55e;"></i>' : '<i class="fas fa-lock" style="font-size: 28px; color: #cbd5e1;"></i>'}
+          </div>
+        `;
+      }).join('');
+    }
+    
+    function generateShareImage() {
+      const element = document.getElementById('sharePreview');
+      html2canvas(element, { backgroundColor: '#ffffff', scale: 2 }).then(canvas => {
+        canvas.toBlob(blob => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = '高考倒计时.png';
+          a.click();
+          URL.revokeObjectURL(url);
+          showToast('分享图已生成！📸');
+          const count = parseInt(localStorage.getItem('shareCount') || '0') + 1;
+          localStorage.setItem('shareCount', count);
+          checkAchievements();
+        });
+      });
+    }
+    
+    function shareToFriends() {
+      const days = document.getElementById('daysLeft').textContent;
+      const text = `距离高考还有${days}天！一起加油，为梦想冲刺！💪🎓`;
+      if (navigator.share) {
+        navigator.share({ title: '高考倒计时', text: text }).then(() => {
+          const count = parseInt(localStorage.getItem('shareCount') || '0') + 1;
+          localStorage.setItem('shareCount', count);
+          checkAchievements();
+        });
+      } else {
+        prompt('复制以下文字分享给好友：', text);
+      }
+    }
+    
+    function loadProfile() {
+      const nickname = localStorage.getItem('nickname') || '高考学子';
+      const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+      const records = JSON.parse(localStorage.getItem('studyRecords') || '[]');
+      const unlocked = JSON.parse(localStorage.getItem('unlockedAchievements') || '[]');
+      document.getElementById('profileNickname').textContent = nickname;
+      document.getElementById('avatarText').textContent = nickname.charAt(0).toUpperCase();
+      document.getElementById('nicknameInput').value = nickname;
+      document.getElementById('studyDays').textContent = records.length;
+      document.getElementById('completedTasks').textContent = tasks.filter(t => t.completed).length;
+      document.getElementById('totalTasks').textContent = tasks.length;
+      document.getElementById('unlockedAchievements').textContent = unlocked.length;
+      document.getElementById('profileTarget').textContent = '🎯 ' + (localStorage.getItem('targetUniversity') || '还未设置目标');
+    }
+    
+    function setNickname() {
+      const nickname = document.getElementById('nicknameInput').value.trim();
+      if (nickname) {
+        localStorage.setItem('nickname', nickname);
+        loadProfile();
+        showToast('昵称已保存！✅');
+      }
+    }
+    
+    // 二维码功能
+    function showQrModal() {
+      const modal = document.getElementById('qrModal');
+      modal.classList.add('active');
+      
+      // 生成二维码
+      const qrContainer = document.getElementById('qrcode');
+      qrContainer.innerHTML = '';
+      
+      // 获取当前页面 URL 或生成一个说明文本
+      const currentUrl = window.location.href;
+      const appInfo = `高考倒计时小程序\n\n功能：\n• 高考倒计时\n• 学习计时\n• 任务管理\n• 成就系统\n\n数据本地保存，多设备同步使用`;
+      
+      qrCode = new QRCode(qrContainer, {
+        text: appInfo,
+        width: 200,
+        height: 200,
+        colorDark: '#1e293b',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+      
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeQrModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const modal = document.getElementById('qrModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    function downloadQR() {
+      const qrContainer = document.getElementById('qrcode');
+      const canvas = qrContainer.querySelector('canvas');
+      if (canvas) {
+        const url = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = '高考倒计时 - 二维码.png';
+        a.click();
+        showToast('二维码已保存！📱');
+      }
+    }
+    
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 2000);
+    }
+    
+    // 初始化
+    createParticles();
+    updateDateTime();
+    updateCountdown();
+    updateQuote();
+    updateStudyStats();
+    
+    setInterval(updateDateTime, 60000);
+    setInterval(updateCountdown, 1000);
+    
+    document.body.addEventListener('click', () => {
+      const music = document.getElementById('bgMusic');
+      if (music.paused && !music.dataset.started) {
+        music.play().catch(() => {});
+        music.dataset.started = 'true';
+        document.getElementById('musicControl').classList.remove('paused');
+        document.getElementById('musicControl').innerHTML = '<i class="fas fa-compact-disc" style="animation: spin 2s linear infinite;"></i>';
+      }
+    }, { once: true });
+  </script>
+</body>
+</html>

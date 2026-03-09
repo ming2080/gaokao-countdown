@@ -1,0 +1,108 @@
+<!--pages/target/target.wxml-->
+<view class="container">
+  <!-- 目标大学展示卡片 -->
+  <view class="target-card card">
+    <view class="card-header">
+      <text class="card-title">🎯 我的目标</text>
+      <view class="card-actions" wx:if="{{!isEditing}}">
+        <text class="action-btn" bindtap="startEdit">编辑</text>
+        <text class="action-btn danger" bindtap="clearTarget">清空</text>
+      </view>
+    </view>
+
+    <view class="target-content" wx:if="{{!isEditing}}">
+      <view class="target-main" wx:if="{{targetUniversity}}">
+        <text class="university-name">{{targetUniversity}}</text>
+        <text class="target-score-text" wx:if="{{targetScore}}">目标分数：{{targetScore}}分</text>
+      </view>
+      
+      <view class="empty-state" wx:else>
+        <text class="empty-icon">🎓</text>
+        <text class="empty-text">还没有设置目标大学</text>
+        <button class="btn-primary mt-20" bindtap="startEdit">设置目标</button>
+      </view>
+    </view>
+
+    <!-- 编辑表单 -->
+    <view class="edit-form" wx:if="{{isEditing}}">
+      <view class="form-item">
+        <text class="form-label">目标大学</text>
+        <view class="form-input-wrapper">
+          <input 
+            class="form-input" 
+            placeholder="请输入或选择大学"
+            value="{{targetUniversity}}"
+            bindinput="onUniversityInput"
+          />
+          <text class="select-btn" bindtap="selectUniversity">选择</text>
+        </view>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">目标分数</text>
+        <input 
+          class="form-input" 
+          type="number"
+          placeholder="例如：650"
+          value="{{targetScore}}"
+          bindinput="onTargetScoreInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">当前分数</text>
+        <input 
+          class="form-input" 
+          type="number"
+          placeholder="例如：580"
+          value="{{currentScore}}"
+          bindinput="onCurrentScoreInput"
+        />
+      </view>
+
+      <view class="score-gap" wx:if="{{scoreGap > 0}}">
+        <text class="gap-label">还需提高</text>
+        <text class="gap-number">{{scoreGap}}</text>
+        <text class="gap-unit">分</text>
+      </view>
+
+      <view class="form-buttons">
+        <button class="btn-cancel" bindtap="cancelEdit">取消</button>
+        <button class="btn-primary" bindtap="saveTarget">保存</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 分数趋势提示 -->
+  <view class="tips-card card" wx:if="{{targetScore && currentScore}}">
+    <view class="tips-title">📊 分数分析</view>
+    <view class="tips-content">
+      <view class="tip-row" wx:if="{{scoreGap <= 0}}">
+        <text class="tip-icon">✅</text>
+        <text class="tip-text">太棒了！当前分数已达到目标！继续保持！</text>
+      </view>
+      <view class="tip-row" wx:elif="{{scoreGap <= 50}}">
+        <text class="tip-icon">💪</text>
+        <text class="tip-text">加油！距离目标只差{{scoreGap}}分，冲刺一下就能达到！</text>
+      </view>
+      <view class="tip-row" wx:elif="{{scoreGap <= 100}}">
+        <text class="tip-icon">📈</text>
+        <text class="tip-text">稳步提升！还有{{scoreGap}}分的差距，制定好复习计划！</text>
+      </view>
+      <view class="tip-row" wx:else>
+        <text class="tip-icon">🔥</text>
+        <text class="tip-text">需要更加努力！还有{{scoreGap}}分，每天进步一点点！</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 大学列表参考 -->
+  <view class="reference-card card">
+    <view class="card-title">📚 热门大学参考</view>
+    <view class="university-list">
+      <view class="uni-item" wx:for="{{universityOptions}}" wx:key="*this" bindtap="selectUni" data-name="{{item}}">
+        <text class="uni-name">{{item}}</text>
+      </view>
+    </view>
+  </view>
+</view>

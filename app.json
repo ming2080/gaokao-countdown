@@ -1,0 +1,47 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/target/target",
+    "pages/task/task",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#4A90D9",
+    "navigationBarTitleText": "高考倒计时",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#4A90D9",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "倒计时",
+        "iconPath": "images/countdown.png",
+        "selectedIconPath": "images/countdown-active.png"
+      },
+      {
+        "pagePath": "pages/target/target",
+        "text": "目标",
+        "iconPath": "images/target.png",
+        "selectedIconPath": "images/target-active.png"
+      },
+      {
+        "pagePath": "pages/task/task",
+        "text": "任务",
+        "iconPath": "images/task.png",
+        "selectedIconPath": "images/task-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/profile.png",
+        "selectedIconPath": "images/profile-active.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

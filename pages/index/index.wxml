@@ -1,0 +1,76 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 倒计时主卡片 -->
+  <view class="countdown-card card">
+    <view class="header">
+      <text class="title">距离高考</text>
+      <text class="date" bindtap="onChangeDate">{{displayDate}} 📅</text>
+    </view>
+    
+    <view class="countdown-main">
+      <view class="days-box">
+        <text class="days-number">{{daysLeft}}</text>
+        <text class="days-label">天</text>
+      </view>
+    </view>
+    
+    <view class="countdown-detail">
+      <view class="time-item">
+        <text class="time-number">{{hoursLeft}}</text>
+        <text class="time-label">时</text>
+      </view>
+      <view class="time-item">
+        <text class="time-number">{{minutesLeft}}</text>
+        <text class="time-label">分</text>
+      </view>
+      <view class="time-item">
+        <text class="time-number">{{secondsLeft}}</text>
+        <text class="time-label">秒</text>
+      </view>
+    </view>
+    
+    <!-- 进度条 -->
+    <view class="progress-section">
+      <view class="progress-label">
+        <text>备考进度</text>
+        <text>{{progress}}%</text>
+      </view>
+      <view class="progress-bar">
+        <view class="progress-fill" style="width: {{progress}}%"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 励志语录 -->
+  <view class="quote-card card">
+    <view class="quote-icon">💡</view>
+    <text class="quote-text">{{quote}}</text>
+  </view>
+
+  <!-- 快捷功能 -->
+  <view class="quick-actions">
+    <view class="action-item" bindtap="goToTarget">
+      <view class="action-icon">🎯</view>
+      <text class="action-text">目标大学</text>
+    </view>
+    <view class="action-item" bindtap="goToTask">
+      <view class="action-icon">📝</view>
+      <text class="action-text">今日任务</text>
+    </view>
+    <view class="action-item" bindtap="shareCountdown">
+      <view class="action-icon">📤</view>
+      <text class="action-text">分享打卡</text>
+    </view>
+  </view>
+
+  <!-- 备考提醒 -->
+  <view class="tips-card card">
+    <view class="tips-title">📌 备考提醒</view>
+    <view class="tips-list">
+      <view class="tip-item">• 保持规律作息，每天保证 7-8 小时睡眠</view>
+      <view class="tip-item">• 合理饮食，多吃蔬菜水果</view>
+      <view class="tip-item">• 适当运动，缓解压力</view>
+      <view class="tip-item">• 定期复习，查漏补缺</view>
+    </view>
+  </view>
+</view>
