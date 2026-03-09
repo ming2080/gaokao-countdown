@@ -2044,12 +2044,11 @@
       const qrContainer = document.getElementById('qrcode');
       qrContainer.innerHTML = '';
       
-      // 获取当前页面 URL 或生成一个说明文本
-      const currentUrl = window.location.href;
-      const appInfo = `高考倒计时小程序\n\n功能：\n• 高考倒计时\n• 学习计时\n• 任务管理\n• 成就系统\n\n数据本地保存，多设备同步使用`;
+      // GitHub Pages 访问地址
+      const appUrl = 'https://ming2080.github.io/gaokao-countdown/';
       
       qrCode = new QRCode(qrContainer, {
-        text: appInfo,
+        text: appUrl,
         width: 200,
         height: 200,
         colorDark: '#1e293b',
