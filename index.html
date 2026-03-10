@@ -35,6 +35,54 @@
       --glass-border: rgba(255, 255, 255, 0.3);
     }
     
+    /* 风格 1 - 梦幻紫 (默认) */
+    .style-dream {
+      --card-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --card-accent: #f093fb;
+      --card-glow: rgba(118, 75, 162, 0.5);
+      --card-particle: rgba(255, 255, 255, 0.8);
+    }
+    
+    /* 风格 2 - 海洋蓝 */
+    .style-ocean {
+      --card-bg: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
+      --card-accent: #a8edea;
+      --card-glow: rgba(33, 147, 176, 0.5);
+      --card-particle: rgba(255, 255, 255, 0.7);
+    }
+    
+    /* 风格 3 - 日落橙 */
+    .style-sunset {
+      --card-bg: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --card-accent: #ffd89b;
+      --card-glow: rgba(245, 87, 108, 0.5);
+      --card-particle: rgba(255, 220, 155, 0.6);
+    }
+    
+    /* 风格 4 - 森林绿 */
+    .style-forest {
+      --card-bg: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      --card-accent: #a8ff78;
+      --card-glow: rgba(17, 153, 142, 0.5);
+      --card-particle: rgba(168, 255, 120, 0.5);
+    }
+    
+    /* 风格 5 - 星空黑 */
+    .style-starry {
+      --card-bg: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      --card-accent: #ffd700;
+      --card-glow: rgba(139, 92, 246, 0.4);
+      --card-particle: rgba(255, 215, 0, 0.8);
+    }
+    
+    /* 风格 6 - 樱花粉 */
+    .style-sakura {
+      --card-bg: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+      --card-accent: #ff6b95;
+      --card-glow: rgba(255, 154, 158, 0.5);
+      --card-particle: rgba(255, 183, 197, 0.7);
+    }
+    
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
       background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
@@ -228,6 +276,17 @@
       position: relative;
       overflow: hidden;
       border: 1px solid var(--glass-border);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .countdown-card.style-change {
+      animation: cardFlip 0.6s ease-in-out;
+    }
+    
+    @keyframes cardFlip {
+      0% { transform: rotateY(0deg); }
+      50% { transform: rotateY(90deg); }
+      100% { transform: rotateY(0deg); }
     }
     
     .countdown-card::before {
@@ -239,6 +298,80 @@
       height: 200%;
       background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
       animation: rotateBg 30s linear infinite;
+    }
+    
+    /* 风格化卡片背景 */
+    .countdown-card[data-style="dream"] { background: var(--card-bg); }
+    .countdown-card[data-style="ocean"] { background: var(--card-bg); }
+    .countdown-card[data-style="sunset"] { background: var(--card-bg); }
+    .countdown-card[data-style="forest"] { background: var(--card-bg); }
+    .countdown-card[data-style="starry"] { background: var(--card-bg); }
+    .countdown-card[data-style="sakura"] { background: var(--card-bg); }
+    
+    /* 风格切换按钮 */
+    .style-switcher {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+    
+    .style-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    .style-btn:hover {
+      transform: scale(1.15);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .style-btn.active {
+      border-color: #fff;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+    }
+    
+    .style-btn.dream { background: linear-gradient(135deg, #667eea, #764ba2); }
+    .style-btn.ocean { background: linear-gradient(135deg, #2193b0, #6dd5ed); }
+    .style-btn.sunset { background: linear-gradient(135deg, #f093fb, #f5576c); }
+    .style-btn.forest { background: linear-gradient(135deg, #11998e, #38ef7d); }
+    .style-btn.starry { background: linear-gradient(135deg, #0f0c29, #302b63); }
+    .style-btn.sakura { background: linear-gradient(135deg, #ff9a9e, #fecfef); }
+    
+    /* 风格名称提示 */
+    .style-tooltip {
+      position: absolute;
+      top: 55px;
+      right: 16px;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+      z-index: 11;
+    }
+    
+    .style-btn:hover + .style-tooltip {
+      opacity: 1;
+      transform: translateY(0);
     }
     
     @keyframes rotateBg {
@@ -362,6 +495,17 @@
       text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
       position: relative;
       z-index: 1;
+      display: inline-block;
+    }
+    
+    .days-number.animate {
+      animation: numberPulse 0.5s ease-in-out;
+    }
+    
+    @keyframes numberPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
     
     .days-label {
@@ -372,6 +516,54 @@
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
       position: relative;
       z-index: 1;
+    }
+    
+    /* 数字滚动动画容器 */
+    .number-roll {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: baseline;
+    }
+    
+    .number-roll-inner {
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* 粒子效果 */
+    .countdown-card[data-style="starry"] .days-box::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(2px 2px at 20px 30px, #ffd700, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255, 215, 0, 0.8), transparent),
+        radial-gradient(2px 2px at 50px 160px, #ffd700, transparent),
+        radial-gradient(2px 2px at 90px 40px, rgba(255, 215, 0, 0.6), transparent),
+        radial-gradient(2px 2px at 130px 80px, #ffd700, transparent);
+      background-size: 150px 200px;
+      animation: starTwinkle 3s ease-in-out infinite;
+      opacity: 0.6;
+    }
+    
+    @keyframes starTwinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.8; }
+    }
+    
+    /* 樱花飘落效果 */
+    .countdown-card[data-style="sakura"] .days-box::after {
+      content: '🌸';
+      position: absolute;
+      font-size: 20px;
+      animation: sakuraFall 4s linear infinite;
+      opacity: 0.6;
+    }
+    
+    @keyframes sakuraFall {
+      0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.8; }
+      100% { transform: translateY(200px) rotate(360deg); opacity: 0; }
     }
     
     .countdown-detail {
@@ -605,11 +797,11 @@
       -webkit-backdrop-filter: blur(20px);
       border-radius: 32px;
       display: flex;
-      padding: 10px 16px;
-      padding-bottom: calc(10px + env(safe-area-inset-bottom));
+      padding: 8px 12px;
+      padding-bottom: calc(8px + env(safe-area-inset-bottom));
       box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
       z-index: 100;
-      gap: 8px;
+      gap: 6px;
       border: 1px solid rgba(255, 255, 255, 0.5);
     }
     
@@ -617,15 +809,19 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 5px;
-      padding: 12px 18px;
+      justify-content: center;
+      gap: 4px;
+      padding: 10px 14px;
+      min-width: 64px;
       border-radius: 22px;
       cursor: pointer;
       color: #94a3b8;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
+      white-space: nowrap;
+      line-height: 1.2;
     }
     
     .tab-item::before {
@@ -1361,17 +1557,42 @@
         </div>
       </div>
       
-      <div class="countdown-card">
+      <div class="countdown-card style-dream" id="countdownCard" data-style="dream">
+        <!-- 风格切换按钮 -->
+        <div class="style-switcher">
+          <div class="style-btn dream active" onclick="changeStyle('dream')" title="梦幻紫">🎨</div>
+          <div class="style-btn ocean" onclick="changeStyle('ocean')" title="海洋蓝">🌊</div>
+          <div class="style-btn sunset" onclick="changeStyle('sunset')" title="日落橙">🌅</div>
+          <div class="style-btn forest" onclick="changeStyle('forest')" title="森林绿">🌲</div>
+          <div class="style-btn starry" onclick="changeStyle('starry')" title="星空黑">⭐</div>
+          <div class="style-btn sakura" onclick="changeStyle('sakura')" title="樱花粉">🌸</div>
+        </div>
+        
         <div class="card-header">
           <div class="card-title">
-            <div class="card-title-icon">
+            <div class="card-title-icon" id="cardTitleIcon">
               <i class="fas fa-graduation-cap"></i>
             </div>
-            <span>距离高考</span>
+            <span id="countdownTitle">距离高考</span>
           </div>
           <div class="date-badge" onclick="changeDate()" id="gaokaoDateDisplay">
             <i class="far fa-calendar-alt"></i> 2026 年 6 月 7 日
           </div>
+        </div>
+        
+        <!-- 节日/纪念日切换 -->
+        <div style="text-align: center; margin-bottom: 16px;">
+          <select id="eventSelector" onchange="changeEvent()" style="padding: 8px 16px; border-radius: 20px; border: 2px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.2); color: #fff; font-size: 13px; font-weight: 600; cursor: pointer; backdrop-filter: blur(10px);">
+            <option value="gaokao">🎓 高考</option>
+            <option value="newyear">🎊 新年</option>
+            <option value="spring">🧧 春节</option>
+            <option value="midautumn">🥮 中秋节</option>
+            <option value="national">🇨🇳 国庆节</option>
+            <option value="dragon">🐉 端午节</option>
+            <option value="qingming">🌿 清明节</option>
+            <option value="labour">💼 劳动节</option>
+            <option value="custom">📝 自定义纪念日</option>
+          </select>
         </div>
         
         <div class="countdown-main">
@@ -1401,7 +1622,7 @@
         <div class="progress-section">
           <div class="progress-header">
             <div class="progress-label">
-              <i class="fas fa-chart-line"></i> 备考进度
+              <i class="fas fa-chart-line"></i> <span id="progressLabel">备考进度</span>
             </div>
             <div class="progress-percent" id="progressPercent">0%</div>
           </div>
@@ -1698,6 +1919,43 @@
     let isTimerRunning = false;
     let qrCode = null;
     
+    // 节日/纪念日配置
+    const events = {
+      gaokao: { name: '高考', icon: '🎓', getDate: () => {
+        const now = new Date();
+        const year = now.getMonth() > 5 || (now.getMonth() === 5 && now.getDate() > 7) ? now.getFullYear() + 1 : now.getFullYear();
+        return `${year}-06-07`;
+      }},
+      newyear: { name: '新年', icon: '🎊', getDate: () => `${new Date().getFullYear() + 1}-01-01` },
+      spring: { name: '春节', icon: '🧧', getDate: () => {
+        // 2026 年春节是 1 月 29 日
+        const springDates = { 2026: '01-29', 2027: '02-17', 2028: '02-06', 2029: '01-26' };
+        const now = new Date();
+        const year = now.getMonth() > 1 || (now.getMonth() === 1 && now.getDate() > 15) ? now.getFullYear() + 1 : now.getFullYear();
+        return `${year}-${springDates[year] || '01-29'}`;
+      }},
+      midautumn: { name: '中秋节', icon: '🥮', getDate: () => {
+        // 2026 年中秋是 9 月 25 日
+        const midDates = { 2026: '09-25', 2027: '09-15', 2028: '10-03', 2029: '09-22' };
+        const now = new Date();
+        const year = now.getMonth() > 9 || (now.getMonth() === 9 && now.getDate() > 20) ? now.getFullYear() + 1 : now.getFullYear();
+        return `${year}-${midDates[year] || '09-25'}`;
+      }},
+      national: { name: '国庆节', icon: '🇨🇳', getDate: () => `${new Date().getFullYear()}-10-01` },
+      dragon: { name: '端午节', icon: '🐉', getDate: () => {
+        const dragonDates = { 2026: '06-19', 2027: '06-09', 2028: '05-28', 2029: '06-16' };
+        const now = new Date();
+        const year = now.getMonth() > 5 || (now.getMonth() === 5 && now.getDate() > 15) ? now.getFullYear() + 1 : now.getFullYear();
+        return `${year}-${dragonDates[year] || '06-19'}`;
+      }},
+      qingming: { name: '清明节', icon: '🌿', getDate: () => `${new Date().getFullYear()}-04-05` },
+      labour: { name: '劳动节', icon: '💼', getDate: () => `${new Date().getFullYear()}-05-01` },
+      custom: { name: '自定义', icon: '📝', getDate: () => localStorage.getItem('customDate') || `${new Date().getFullYear()}-12-31` }
+    };
+    
+    let currentEvent = localStorage.getItem('currentEvent') || 'gaokao';
+    let currentStyle = localStorage.getItem('cardStyle') || 'dream';
+    
     let gaokaoDate = localStorage.getItem('gaokaoDate');
     if (!gaokaoDate) {
       const now = new Date();
@@ -1729,7 +1987,9 @@
     
     function updateCountdown() {
       const now = new Date();
-      const target = new Date(gaokaoDate);
+      const eventConfig = events[currentEvent];
+      const targetDate = eventConfig.getDate();
+      const target = new Date(targetDate);
       const diff = target - now;
       
       if (diff <= 0) {
@@ -1747,22 +2007,131 @@
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
       
+      // 添加数字变化动画
+      const daysEl = document.getElementById('daysLeft');
+      if (daysEl.textContent !== String(days)) {
+        daysEl.classList.add('animate');
+        setTimeout(() => daysEl.classList.remove('animate'), 500);
+      }
+      
       document.getElementById('daysLeft').textContent = days;
       document.getElementById('hoursLeft').textContent = String(hours).padStart(2, '0');
       document.getElementById('minutesLeft').textContent = String(minutes).padStart(2, '0');
       document.getElementById('secondsLeft').textContent = String(seconds).padStart(2, '0');
       
-      const schoolYearStart = new Date(now.getFullYear(), 8, 1);
-      if (now.getMonth() < 8) schoolYearStart.setFullYear(now.getFullYear() - 1);
-      const totalDays = Math.floor((target - schoolYearStart) / (1000 * 60 * 60 * 24));
-      const passedDays = Math.floor((now - schoolYearStart) / (1000 * 60 * 60 * 24));
-      const progress = Math.min(100, Math.max(0, Math.floor((passedDays / totalDays) * 100)));
+      // 更新标题和进度标签
+      document.getElementById('countdownTitle').textContent = `距离${eventConfig.name}`;
+      document.getElementById('cardTitleIcon').innerHTML = `<i class="fas ${getEventIcon(currentEvent)}"></i>`;
+      document.getElementById('progressLabel').textContent = currentEvent === 'gaokao' ? '备考进度' : '时间进度';
+      document.getElementById('gaokaoDateDisplay').innerHTML = `<i class="far fa-calendar-alt"></i> ${formatDate(targetDate)}`;
+      
+      // 计算进度
+      let progress = 0;
+      if (currentEvent === 'gaokao') {
+        const schoolYearStart = new Date(now.getFullYear(), 8, 1);
+        if (now.getMonth() < 8) schoolYearStart.setFullYear(now.getFullYear() - 1);
+        const totalDays = Math.floor((target - schoolYearStart) / (1000 * 60 * 60 * 24));
+        const passedDays = Math.floor((now - schoolYearStart) / (1000 * 60 * 60 * 24));
+        progress = Math.min(100, Math.max(0, Math.floor((passedDays / totalDays) * 100)));
+      } else {
+        // 其他节日：计算一年中的进度
+        const yearStart = new Date(now.getFullYear(), 0, 1);
+        const yearEnd = new Date(now.getFullYear() + 1, 0, 1);
+        const totalYear = yearEnd - yearStart;
+        const passed = now - yearStart;
+        progress = Math.min(100, Math.max(0, Math.floor((passed / totalYear) * 100)));
+      }
       
       document.getElementById('progressFill').style.width = progress + '%';
       document.getElementById('progressPercent').textContent = progress + '%';
       document.getElementById('shareDays').textContent = days;
       
       checkAchievements({ daysLeft: days });
+    }
+    
+    function getEventIcon(event) {
+      const icons = {
+        gaokao: 'fa-graduation-cap',
+        newyear: 'fa-party-horn',
+        spring: 'fa-dragon',
+        midautumn: 'fa-moon',
+        national: 'fa-flag',
+        dragon: 'fa-ship',
+        qingming: 'fa-leaf',
+        labour: 'fa-briefcase',
+        custom: 'fa-bookmark'
+      };
+      return icons[event] || 'fa-calendar';
+    }
+    
+    function formatDate(dateStr) {
+      const d = new Date(dateStr);
+      return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
+    }
+    
+    // 切换卡片风格
+    function changeStyle(style) {
+      const card = document.getElementById('countdownCard');
+      const btns = document.querySelectorAll('.style-btn');
+      
+      // 添加翻转动画
+      card.classList.add('style-change');
+      
+      setTimeout(() => {
+        // 移除所有风格类
+        card.classList.remove('style-dream', 'style-ocean', 'style-sunset', 'style-forest', 'style-starry', 'style-sakura');
+        // 添加新风格类
+        card.classList.add(`style-${style}`);
+        card.setAttribute('data-style', style);
+        
+        // 更新按钮状态
+        btns.forEach(btn => btn.classList.remove('active'));
+        document.querySelector(`.style-btn.${style}`).classList.add('active');
+        
+        // 移除动画类
+        card.classList.remove('style-change');
+        
+        // 保存偏好
+        currentStyle = style;
+        localStorage.setItem('cardStyle', style);
+        
+        showToast(`已切换到${getStyleName(style)}风格！`);
+      }, 300);
+    }
+    
+    function getStyleName(style) {
+      const names = {
+        dream: '梦幻紫',
+        ocean: '海洋蓝',
+        sunset: '日落橙',
+        forest: '森林绿',
+        starry: '星空黑',
+        sakura: '樱花粉'
+      };
+      return names[style] || style;
+    }
+    
+    // 切换节日/纪念日
+    function changeEvent() {
+      const selector = document.getElementById('eventSelector');
+      const newEvent = selector.value;
+      currentEvent = newEvent;
+      localStorage.setItem('currentEvent', newEvent);
+      
+      if (newEvent === 'custom') {
+        const customDate = prompt('请输入纪念日日期 (格式：YYYY-MM-DD)', localStorage.getItem('customDate') || `${new Date().getFullYear()}-12-31`);
+        if (customDate && /^\d{4}-\d{2}-\d{2}$/.test(customDate)) {
+          localStorage.setItem('customDate', customDate);
+          showToast('自定义纪念日已设置！📝');
+        } else {
+          selector.value = currentEvent;
+          return;
+        }
+      }
+      
+      updateCountdown();
+      const eventConfig = events[newEvent];
+      showToast(`已切换到${eventConfig.name}倒计时！${eventConfig.icon}`);
     }
     
     function updateQuote() {
@@ -2087,11 +2456,31 @@
     }
     
     // 初始化
-    createParticles();
-    updateDateTime();
-    updateCountdown();
-    updateQuote();
-    updateStudyStats();
+    function init() {
+      // 加载保存的风格
+      const savedStyle = localStorage.getItem('cardStyle') || 'dream';
+      const card = document.getElementById('countdownCard');
+      card.classList.remove('style-dream', 'style-ocean', 'style-sunset', 'style-forest', 'style-starry', 'style-sakura');
+      card.classList.add(`style-${savedStyle}`);
+      card.setAttribute('data-style', savedStyle);
+      
+      // 更新按钮状态
+      document.querySelectorAll('.style-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`.style-btn.${savedStyle}`).classList.add('active');
+      
+      // 加载保存的节日
+      const savedEvent = localStorage.getItem('currentEvent') || 'gaokao';
+      document.getElementById('eventSelector').value = savedEvent;
+      currentEvent = savedEvent;
+      
+      createParticles();
+      updateDateTime();
+      updateCountdown();
+      updateQuote();
+      updateStudyStats();
+    }
+    
+    init();
     
     setInterval(updateDateTime, 60000);
     setInterval(updateCountdown, 1000);
