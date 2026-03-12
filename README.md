@@ -7,7 +7,7 @@
 
 ## 📱 在线访问
 
-**[👉 点击此处访问在线版](https://你的用户名.github.io/高考倒计时/)**
+**[👉 点击此处访问在线版]([https://你的用户名.github.io/高考倒计时](https://ming2080.github.io/gaokao-countdown/)/)**
 
 （部署后替换为实际 URL）
 
